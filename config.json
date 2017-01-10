@@ -1,0 +1,35 @@
+{
+    "general": {
+        "host": "146.64.19.62",
+        "user": "DerekH"
+    },
+    "postgresql": {
+        "data": "~/dev/ocims/postgresql/data/",
+        "user": "ckan_default",
+        "database": "ckan_default",
+	"datastore": "datastore_default"
+	
+    },
+    "tomcat": {
+        "port": 8081,
+        "image": "tomcat:8-jre8",
+        "volume": "~/dev/ocims/tomcat/webapps/"
+    },
+    "solr": {
+        "image": "solr:5.3.2",
+        "volume": "~/dev/ocims/solr/",
+        "port": 8981,
+        "schema": "~/dev/ocims/ckan/conf/schema.xml",
+        "conf_in": "~/dev/ocims/ckan/",
+        "conf_out": "/var/solr/data/configsets/ckan/"
+    },
+    "ckan": {
+        "default": "~/dev/ocims/ckan/default/",
+        "scripts": "~/dev/ocims/ckan/scripts/",
+        "port": 80,
+        "settings": {
+            "ckan.site_url": 
+                {"value": "ckan.site_url = http://146.64.19.62", "line": true}
+        }
+    }
+}
