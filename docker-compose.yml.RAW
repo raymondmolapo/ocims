@@ -1,0 +1,52 @@
+# Created by: Derek Hohls
+# Created on: 2016-05-09
+# Purpose:
+#    Setup Dockers for a CKAN deployment
+# See: https://www.calazan.com/using-docker-and-docker-compose-for-local-django-development-replacing-virtualenv/
+# NOTES:
+#  * 'image' is a reference to a DockerHub location e.g.
+#    cheewai/postgis refers to https://hub.docker.com/r/cheewai/postgis/
+
+postgresql:
+    image: cheewai/postgis
+    container_name: ocims_postgis
+    environment:
+        - PGDATA=/var/lib/postgresql/data
+        - POSTGRES_DB=test
+        - POSTGRES_USER=ocims
+        - POSTGRES_PASSWORD=fubar
+    volumes:
+        - ~/dev/ocims/postgresql/:/var/lib/postgresql
+        # Customize access control to overwrite the default
+        #- ~/dev/ocims/postgresql/pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf:ro
+        # Customize server tuning parameters to overwrite the default
+        #- ~/dev/ocims/postgresql/postgresql.conf:/var/lib/postgresql/data/postgresql.conf:ro
+    ports:
+        - "5431:5432"
+
+rabbitmq:
+  image: jcalazan/rabbitmq
+  container_name: ocims_rabbitmq
+  ports:
+    - "15671:15672"
+
+apache:
+    image: httpd
+    container_name: ocims_apache
+    #environment:
+    #    - 
+    volumes:
+        - ~/dev/ocims/public-html/:/usr/local/apache2/htdocs/
+    ports:
+        - "441:443"
+
+tomcat:
+    image: tomcat
+    container_name: ocims_tomcat
+    #environment:
+    #    - 
+    volumes:
+        - ~/dev/ocims/?/:/usr/local/tomcat/webapps/
+    ports:
+        - "8081:8080"
+
